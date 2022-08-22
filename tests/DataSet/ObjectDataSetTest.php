@@ -9,6 +9,7 @@ use ReflectionProperty;
 use Yiisoft\Validator\DataSet\ObjectDataSet;
 use Yiisoft\Validator\Rule\Equal;
 use Yiisoft\Validator\Rule\Required;
+use Yiisoft\Validator\Tests\Stub\ObjectWithClassRules;
 use Yiisoft\Validator\Tests\Stub\ObjectWithDataSet;
 use Yiisoft\Validator\Tests\Stub\ObjectWithDataSetAndRulesProvider;
 use Yiisoft\Validator\Tests\Stub\ObjectWithDifferentPropertyVisibility;
@@ -121,5 +122,16 @@ final class ObjectDataSetTest extends TestCase
         $this->assertCount(2, $rules['key2']);
         $this->assertInstanceOf(Required::class, $rules['key2'][0]);
         $this->assertInstanceOf(Equal::class, $rules['key2'][1]);
+    }
+
+    public function testXXX(): void
+    {
+        $object = new ObjectWithClassRules();
+
+        $data = new ObjectDataSet($object);
+        $rules = $data->getRules();
+
+        var_dump($rules);
+        die;
     }
 }

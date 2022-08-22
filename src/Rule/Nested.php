@@ -29,7 +29,7 @@ use function sprintf;
 /**
  * Can be used for validation of nested structures.
  */
-#[Attribute(Attribute::TARGET_PROPERTY | Attribute::IS_REPEATABLE)]
+#[Attribute(Attribute::TARGET_PROPERTY | Attribute::TARGET_CLASS | Attribute::IS_REPEATABLE)]
 final class Nested implements SerializableRuleInterface, BeforeValidationInterface
 {
     use BeforeValidationTrait;

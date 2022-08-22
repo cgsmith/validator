@@ -76,13 +76,26 @@ final class ObjectDataSet implements RulesProviderInterface, DataSetInterface
         $objectProvidedRules = $this->object instanceof RulesProviderInterface;
         $this->dataSetProvided = $this->object instanceof DataSetInterface;
 
-        $this->rules = $objectProvidedRules ? $this->object->getRules() : [];
+        $reflection = null;
+
+        if ($objectProvidedRules) {
+            $this->rules = $this->object->getRules();
+        } else {
+            $this->rules = [];
+
+            $reflection = new ReflectionObject($this->object);
+
+            $attributes = $reflection->getAttributes(RuleInterface::class, ReflectionAttribute::IS_INSTANCEOF);
+            foreach ($attributes as $attribute) {
+                $this->rules[] = $attribute->newInstance();
+            }
+        }
 
         if ($this->dataSetProvided) {
             return;
         }
 
-        $reflection = new ReflectionObject($this->object);
+        $reflection ??= new ReflectionObject($this->object);
         foreach ($reflection->getProperties() as $property) {
             if (!$this->isUseProperty($property)) {
                 continue;
